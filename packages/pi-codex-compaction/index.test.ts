@@ -163,7 +163,7 @@ describe("pi-codex-compaction", () => {
 			requestBody = JSON.parse(String(init?.body));
 			requestHeaders = new Headers(init?.headers);
 			return compactionSse();
-		}) as unknown as unknown as typeof fetch;
+		}) as typeof fetch;
 
 		const firstUser = userEntry("user-1", "Remember BLUE-42.");
 		const harness = extensionHarness([firstUser]);
@@ -234,7 +234,7 @@ describe("pi-codex-compaction", () => {
 	});
 
 	test("cancels Pi compaction instead of falling back to text summarization", async () => {
-		globalThis.fetch = (async () => new Response("bad request", { status: 400 })) as unknown as typeof fetch;
+		globalThis.fetch = (async () => new Response("bad request", { status: 400 })) as typeof fetch;
 		const entry = userEntry("user-1", "hello");
 		const harness = extensionHarness([entry]);
 		const result = await harness.handlers.get("session_before_compact")!({
@@ -264,7 +264,7 @@ describe("pi-codex-compaction", () => {
 				});
 			}
 			return compactionSse("retried-opaque");
-		}) as unknown as unknown as typeof fetch;
+		}) as typeof fetch;
 		const entry = userEntry("user-1", "continue after a transient compaction failure");
 		const harness = extensionHarness([entry]);
 		const result = await harness.handlers.get("session_before_compact")!({
@@ -294,7 +294,7 @@ describe("pi-codex-compaction", () => {
 				status: 200,
 				headers: { "content-type": "text/event-stream" },
 			});
-		}) as unknown as unknown as typeof fetch;
+		}) as typeof fetch;
 		const entry = userEntry("user-1", "do not retry a permanent compaction failure");
 		const harness = extensionHarness([entry]);
 		const result = await harness.handlers.get("session_before_compact")!({
@@ -314,7 +314,7 @@ describe("pi-codex-compaction", () => {
 		let resolveFetch: ((response: Response) => void) | undefined;
 		globalThis.fetch = (() => new Promise<Response>((resolve) => {
 			resolveFetch = resolve;
-		})) as unknown as unknown as typeof fetch;
+		})) as typeof fetch;
 		const entry = userEntry("user-1", "continue the task");
 		const harness = extensionHarness([entry]);
 		const pending = harness.handlers.get("session_before_compact")!({
@@ -345,7 +345,7 @@ describe("pi-codex-compaction", () => {
 		globalThis.fetch = (async () => {
 			called = true;
 			return compactionSse();
-		}) as unknown as unknown as typeof fetch;
+		}) as typeof fetch;
 		const entry = userEntry("user-1", "continue the tool-driven task");
 		const harness = extensionHarness([entry]);
 		const result = await harness.handlers.get("before_provider_request")!({
